@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'Noto Sans Bengali';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Noto Sans Bengali'), local('NotoSansBengali');
+}
+
+body {
+    font-family: 'Noto Sans Bengali', sans-serif;
+}
