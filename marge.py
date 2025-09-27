@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, send_file
+# marge_blueprint.py
+from flask import Blueprint, render_template, request, send_file
 from PIL import Image
 import os
 import uuid
 
-app = Flask(__name__)
+marge_bp = Blueprint("marge", __name__, url_prefix="/Marge")
 
 # A4 size in pixels (300 DPI)
 A4_WIDTH, A4_HEIGHT = 2480, 3508
@@ -14,7 +15,6 @@ OUTPUT_FOLDER = "outputs"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
-
 def make_a4_collage(image_paths, output_path):
     collage = Image.new("RGB", (A4_WIDTH, A4_HEIGHT), "white")
     slot_width = A4_WIDTH // COLS
@@ -23,8 +23,7 @@ def make_a4_collage(image_paths, output_path):
     for idx in range(ROWS * COLS):
         row = idx // COLS
         col = idx % COLS
-        x = col * slot_width
-        y = row * slot_height
+        x, y = col * slot_width, row * slot_height
 
         if idx < len(image_paths):
             img = Image.open(image_paths[idx])
@@ -35,8 +34,7 @@ def make_a4_collage(image_paths, output_path):
 
     collage.save(output_path, "JPEG", quality=95)
 
-
-@app.route("/", methods=["GET", "POST"])
+@marge_bp.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
         uploaded_files = request.files.getlist("photos")
@@ -55,7 +53,3 @@ def index():
         return send_file(output_path, as_attachment=True)
 
     return render_template("index.html")
-
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=2050, debug=True)
