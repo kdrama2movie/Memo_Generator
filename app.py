@@ -1,8 +1,6 @@
 from flask import Flask, request, render_template_string, url_for
 import datetime
 import json
-import subprocess
-from marge_blueprint import marge_bp
 from flask import Blueprint, render_template, request, send_file
 from PIL import Image
 import os
