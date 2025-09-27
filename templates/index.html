@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A4 Photo Collage</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white shadow-lg rounded-2xl p-6 w-full max-w-md text-center">
+    <h1 class="text-2xl font-bold text-gray-800 mb-4">📄 A4 Photo Collage</h1>
+    <p class="text-gray-600 mb-4">Upload up to 4 photos to generate an A4 collage</p>
+
+    <form action="/" method="POST" enctype="multipart/form-data" class="space-y-4">
+      <input 
+        type="file" 
+        name="photos" 
+        accept="image/*" 
+        multiple 
+        class="block w-full text-gray-600 border rounded-lg p-2 cursor-pointer"
+      >
+
+      <button 
+        type="submit" 
+        class="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition">
+        📥 Generate Collage
+      </button>
+    </form>
+
+    <p class="mt-6 text-sm text-gray-400">Made with Flask + Pillow</p>
+  </div>
+</body>
+</html>
