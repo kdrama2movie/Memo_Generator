@@ -2,8 +2,12 @@ from flask import Flask, request, render_template_string, url_for
 import datetime
 import json
 import subprocess
+from marge_blueprint import marge_bp
 
 app = Flask(__name__)
+
+# register the second app under /Marge
+app.register_blueprint(marge_bp)
 
 # Sample data
 products = [
