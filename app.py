@@ -3,9 +3,6 @@ import datetime
 import json
 import subprocess
 
-# Start helper.py
-subprocess.Popen(["python", "marge.py"])
-
 app = Flask(__name__)
 
 # Sample data
