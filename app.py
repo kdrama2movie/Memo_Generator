@@ -1,7 +1,8 @@
-from flask import Flask, request, render_template_string, url_for
+from flask import Flask, request, render_template_string, url_for, render_template_string
 import datetime
 import json
-from flask import Blueprint, render_template, request, send_file
+import subprocess
+from flask import Blueprint, request, send_file
 from PIL import Image
 import os
 import uuid
@@ -1408,8 +1409,10 @@ def generate():
         return f"Error generating memo: {str(e)}", 500
 
 
+
+
 # ----------------------------
-# SECOND APP (Collage) as Blueprint
+# COLLAGE BLUEPRINT - FIXED VERSION
 # ----------------------------
 marge_bp = Blueprint("marge", __name__, url_prefix="/Marge")
 
@@ -1437,31 +1440,151 @@ def make_a4_collage(image_paths, output_path):
 
     collage.save(output_path, "JPEG", quality=95)
 
+# HTML template for the collage page
+collage_template = """
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ফটো কলাজ জেনারেটর</title>
+    <style>
+        body { 
+            font-family: 'Arial', sans-serif; 
+            background: #f0f2f5; 
+            margin: 0; 
+            padding: 20px; 
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+        }
+        h1 { 
+            color: #2563eb; 
+            text-align: center; 
+            margin-bottom: 30px; 
+        }
+        .upload-form { 
+            border: 2px dashed #94a3b8; 
+            padding: 30px; 
+            text-align: center; 
+            border-radius: 8px; 
+            margin-bottom: 20px; 
+        }
+        .file-input { 
+            margin: 15px 0; 
+        }
+        .generate-btn { 
+            background: #2563eb; 
+            color: white; 
+            border: none; 
+            padding: 12px 30px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            width: 100%; 
+        }
+        .generate-btn:hover { 
+            background: #1d4ed8; 
+        }
+        .note { 
+            background: #f1f5f9; 
+            padding: 15px; 
+            border-radius: 6px; 
+            margin-top: 20px; 
+            font-size: 14px; 
+            color: #475569; 
+        }
+        .back-link { 
+            display: block; 
+            text-align: center; 
+            margin-top: 20px; 
+            color: #2563eb; 
+            text-decoration: none; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📸 ফটো কলাজ জেনারেটর</h1>
+        
+        <form method="post" enctype="multipart/form-data" class="upload-form">
+            <div class="file-input">
+                <strong>৪টি ছবি নির্বাচন করুন (সর্বোচ্চ ৪টি):</strong><br>
+                <input type="file" name="photos" multiple accept="image/*" required>
+            </div>
+            <button type="submit" class="generate-btn">📥 কলাজ জেনারেট করুন</button>
+        </form>
+        
+        <div class="note">
+            <strong>নির্দেশনা:</strong><br>
+            • সর্বোচ্চ ৪টি ছবি আপলোড করুন<br>
+            • ছবিগুলো JPG, PNG, JPEG ফরম্যাটে হতে হবে<br>
+            • কলাজটি A4 সাইজে তৈরি হবে<br>
+            • আপলোডেট কলাজ ডাউনলোড হবে স্বয়ংক্রিয়ভাবে
+        
+</body>
+</html>
+"""
+
 @marge_bp.route("/", methods=["GET", "POST"])
 def collage_index():
     if request.method == "POST":
+        # Check if files were uploaded
+        if 'photos' not in request.files:
+            return "কোন ফাইল নির্বাচন করা হয়নি", 400
+        
         uploaded_files = request.files.getlist("photos")
+        
+        # Validate files
+        if not uploaded_files or uploaded_files[0].filename == '':
+            return "কোন ফাইল নির্বাচন করা হয়নি", 400
+        
         paths = []
+        
+        try:
+            for file in uploaded_files[:4]:  # Max 4 files
+                if file and file.filename:
+                    # Validate file type
+                    if not file.filename.lower().endswith(('.jpg', '.jpeg', '.png')):
+                        return "শুধুমাত্র JPG, JPEG, PNG ফাইল অনুমোদিত", 400
+                    
+                    filename = str(uuid.uuid4()) + os.path.splitext(file.filename)[1]
+                    filepath = os.path.join(UPLOAD_FOLDER, filename)
+                    file.save(filepath)
+                    paths.append(filepath)
+            
+            if not paths:
+                return "কোন বৈধ ছবি পাওয়া যায়নি", 400
+            
+            # Generate collage
+            output_filename = str(uuid.uuid4()) + ".jpg"
+            output_path = os.path.join(OUTPUT_FOLDER, output_filename)
+            make_a4_collage(paths, output_path)
+            
+            # Clean up uploaded files
+            for path in paths:
+                if os.path.exists(path):
+                    os.remove(path)
+            
+            return send_file(output_path, as_attachment=True, download_name=f"collage_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.jpg")
+            
+        except Exception as e:
+            # Clean up on error
+            for path in paths:
+                if os.path.exists(path):
+                    os.remove(path)
+            return f"ত্রুটি ঘটেছে: {str(e)}", 500
+    
+    # GET request - show the upload form
+    return render_template_string(collage_template)
 
-        for file in uploaded_files[:4]:  # Max 4 files
-            filename = str(uuid.uuid4()) + ".jpg"
-            filepath = os.path.join(UPLOAD_FOLDER, filename)
-            file.save(filepath)
-            paths.append(filepath)
-
-        output_filename = str(uuid.uuid4()) + ".jpg"
-        output_path = os.path.join(OUTPUT_FOLDER, output_filename)
-        make_a4_collage(paths, output_path)
-        return send_file(output_path, as_attachment=True)
-
-    return render_template("index.html")
-
-# Register the second app
+# Register the blueprint
 app.register_blueprint(marge_bp)
-
-
-
-
 
 
 
