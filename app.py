@@ -549,10 +549,10 @@ customer_data = [
 "ঐশী:আত্রাই",
 "ইলা:আত্রাই",
 "জোৎস্না:আত্রাই",
-"গোলাপ:বান্দইখাড়া",
-"জোবায়ের:বান্দইখাড়া",
-"রুইস:বান্দইখাড়া",
-"পাবনা:বান্দইখাড়া",
+"গোলাপ:বান্দাইখাড়া",
+"জোবায়ের:বান্দাইখাড়া",
+"রুইস:বান্দাইখাড়া",
+"পাবনা:বান্দাইখাড়া",
 "রেজাউল:সুতিহাট",
 "বিসমিল্লাহ:বদলগাছি"
 ]
@@ -1049,13 +1049,13 @@ memo_template = """
         
         /* FIX 1: Font size classes to control table text size */
         .font-small { 
-            --header-font-size: 60px; --cell-font-size: 80px; --footer-font-size: 85px; 
-        }
-        .font-medium { 
             --header-font-size: 67px; --cell-font-size: 90px; --footer-font-size: 95px; 
         }
+        .font-medium { 
+            --header-font-size: 67px; --cell-font-size: 100px; --footer-font-size: 110px; 
+        }
         .font-large { 
-            --header-font-size: 75px; --cell-font-size: 100px; --footer-font-size: 105px; 
+            --header-font-size: 67px; --cell-font-size: 115px; --footer-font-size: 120px; 
         }
     </style>
 </head>
