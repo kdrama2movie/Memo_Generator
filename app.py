@@ -726,7 +726,7 @@ form_template = """
                 <tbody id="memoTable"></tbody>
                 <tfoot>
                     <tr class="bg-orange-200">
-                        <td colspan="3" class="border border-orange-400 p-2 font-bold text-orange-900">সর্বমোট</td>
+                        <td colspan="3" class="border border-orange-400 p-2 font-bold text-orange-900">সর্বমোটㅤㅤㅤ</td>
                         <td id="subtotal" class="border border-orange-400 p-2 font-bold text-orange-900 column-total">০</td>
                         <td class="border border-orange-400 p-2 no-print column-action"></td>
                     </tr>
@@ -742,7 +742,7 @@ form_template = """
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-orange-900">আগের বাকি</label>
-                    <input type="number" id="previousDue" placeholder="আগের বাকি" step="0.01" min="0" class="mt-1 block w-full border-orange-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 bg-orange-25">
+                    <input type="number" id="previousDue" placeholder="আগের বাকিㅤㅤㅤ" step="0.01" min="0" class="mt-1 block w-full border-orange-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 bg-orange-25">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-orange-900">মোট বিল</label>
@@ -1441,31 +1441,31 @@ memo_template = """
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="3" style="text-align: right;"><strong>{% if discount_percent > 0 or previous_due > 0 %}মোট মাল{% else %}সর্বমোট{% endif %}</strong></td>
+                    <td colspan="3" style="text-align: right;"><strong>{% if discount_percent > 0 or previous_due > 0 %}মোট মালㅤㅤㅤ{% else %}সর্বমোটㅤㅤㅤ{% endif %}</strong></td>
                     <td class="column-total-cell"><strong>{{ total|round(2)|to_bangla_digits }}</strong></td>
                 </tr>
         
                 {% if discount_percent > 0 %}
                 <tr>
-                    <td colspan="3" style="text-align: right;"><strong>ডিসকাউন্ট ({{ discount_percent|round(2)|to_bangla_digits }}%)</strong></td>
+                    <td colspan="3" style="text-align: right;"><strong>ডিসকাউন্ট ({{ discount_percent|round(2)|to_bangla_digits }}%)ㅤㅤㅤ</strong></td>
                     <td class="column-total-cell"><strong>- {{ discount_amount|round(2)|to_bangla_digits }}</strong></td>
                 </tr>
                 <tr>
-                    <td colspan="3" style="text-align: right;"><strong>ডিসকাউন্ট পর</strong></td>
+                    <td colspan="3" style="text-align: right;"><strong>ডিসকাউন্ট পরㅤㅤㅤ</strong></td>
                     <td class="column-total-cell"><strong>{{ (total - discount_amount)|round(2)|to_bangla_digits }}</strong></td>
                 </tr>
                 {% endif %}
         
                 {% if previous_due > 0 %}
                 <tr>
-                    <td colspan="3" style="text-align: right;"><strong>আগের বাকি</strong></td>
+                    <td colspan="3" style="text-align: right;"><strong>আগের বাকিㅤㅤㅤ</strong></td>
                     <td class="column-total-cell"><strong>{{ previous_due|round(2)|to_bangla_digits }}</strong></td>
                 </tr>
                 {% endif %}
         
                 {% if discount_percent > 0 or previous_due > 0 %}
                 <tr>
-                    <td colspan="3" style="text-align: right;"><strong>সর্বমোট</strong></td>
+                    <td colspan="3" style="text-align: right;"><strong>সর্বমোটㅤㅤㅤ</strong></td>
                     <td class="column-total-cell"><strong>{{ grand_total|round(2)|to_bangla_digits }}</strong></td>
                 </tr>
                 {% endif %}
