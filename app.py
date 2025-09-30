@@ -483,6 +483,7 @@ products = [
 "বদনা ২.৯লি - রেড"]
 
 
+# Customer data format reverted to Name:Address
 customer_data = [
 "বি.ডি.আর:নওগাঁ সদর",
 "শুভ:নওগাঁ সদর",
@@ -557,7 +558,7 @@ customer_data = [
 "বিসমিল্লাহ:বদলগাছি"
 ]
 
-# Parse customer data
+# Parse customer data (reverted to original logic)
 customers = []
 customer_addresses = {}
 for data in customer_data:
@@ -588,7 +589,7 @@ def to_bangla_digits(value):
 
 app.jinja_env.filters['to_bangla_digits'] = to_bangla_digits
 
-# Modernized form template with Tailwind CSS
+# Modernized form template with Orange/Red color scheme
 form_template = """
 <!DOCTYPE html>
 <html lang="bn">
@@ -599,11 +600,11 @@ form_template = """
    <link href="{{ url_for('static', filename='notosansbengali.css') }}" rel="stylesheet">
 <link href="{{ url_for('static', filename='tailwind.min.css') }}" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans Bengali', sans-serif; }
+        body { font-family: 'Noto Sans Bengali', sans-serif; background: #fef7ed; }
         .suggestions { 
             position: absolute; 
             background: white; 
-            border: 1px solid #e5e7eb; 
+            border: 1px solid #fdba74; 
             max-height: 150px; 
             overflow-y: auto; 
             z-index: 10; 
@@ -615,24 +616,36 @@ form_template = """
             cursor: pointer; 
         }
         .suggestion-item:hover { 
-            background-color: #f3f4f6; 
+            background-color: #fed7aa; 
         }
         @media print { 
             .no-print { display: none; } 
         }
+        .header-gradient {
+            background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+        }
+        .section-border {
+            border-left: 4px solid #ea580c;
+        }
+        /* Column specific colors */
+        .column-product { background: #fed7aa !important; }
+        .column-quantity { background: #fdba74 !important; }
+        .column-price { background: #fb923c !important; }
+        .column-total { background: #ea580c !important; color: white !important; }
+        .column-action { background: #dc2626 !important; color: white !important; }
     </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-orange-50">
     <div class="container mx-auto p-4 max-w-4xl">
-      <header class="bg-white shadow rounded-lg p-4 mb-6">
+      <header class="header-gradient shadow rounded-lg p-4 mb-6 border-2 border-orange-500">
     <div class="flex items-center justify-between">
         <img src="{{ left_logo_url }}" alt="বাম লোগো" class="w-24 h-auto">
 
         <div class="text-center">
-            <h1 class="text-3xl font-bold text-blue-600">{{ company_name }}</h1>
-            <p class="text-lg text-gray-700">{{ company_owner }}</p>
-            <p class="text-sm text-gray-500">{{ company_address }}</p>
-            <p class="text-base text-red-600">
+            <h1 class="text-3xl font-bold text-orange-800">{{ company_name }}</h1>
+            <p class="text-lg text-orange-900">{{ company_owner }}</p>
+            <p class="text-sm text-orange-800">{{ company_address }}</p>
+            <p class="text-base text-orange-700 font-semibold">
                 ফোন(ডিলার): {{ company_phone }} |
                 ফোন(প্যাসিফিক): {{ company_email }} |
                 ফোন(প্যাসিফিক): {{ company_email2 }}
@@ -643,51 +656,51 @@ form_template = """
     </div>
 </header>
 
-       <div class="bg-white shadow rounded-lg p-4 mb-6">
+       <div class="bg-orange-50 shadow rounded-lg p-4 mb-6 section-border">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="md:col-span-2">
-            <label class="block text-sm font-medium">গ্রাহকের নাম</label>
+            <label class="block text-sm font-medium text-orange-900">গ্রাহকের নাম</label>
             <div class="relative">
-                <input type="text" id="customerName" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" autocomplete="off" aria-autocomplete="list">
+                <input type="text" id="customerName" class="mt-1 block w-full border-orange-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 bg-orange-25" autocomplete="off" aria-autocomplete="list">
                 <div id="customer-suggestions" class="suggestions hidden"></div>
             </div>
         </div>
         <div>
-            <label class="block text-sm font-medium">মেমো নম্বর</label>
-            <p id="invoiceNo" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 bg-gray-50">{{ invoice_no|to_bangla_digits }}</p>
+            <label class="block text-sm font-medium text-orange-900">মেমো নম্বর</label>
+            <p id="invoiceNo" class="mt-1 block w-full border-orange-300 rounded-md shadow-sm p-2 bg-orange-100 text-orange-900">{{ invoice_no|to_bangla_digits }}</p>
         </div>
         <div>
-            <label class="block text-sm font-medium">তারিখ</label>
-            <input type="date" id="date" value="{{ today }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            <label class="block text-sm font-medium text-orange-900">তারিখ</label>
+            <input type="date" id="date" value="{{ today }}" class="mt-1 block w-full border-orange-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 bg-orange-25">
         </div>
         <div class="md:col-span-2">
-            <label class="block text-sm font-medium">ঠিকানা</label>
+            <label class="block text-sm font-medium text-orange-900">ঠিকানা</label>
             <div class="relative">
-                <input type="text" id="customerAddress" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" autocomplete="off" aria-autocomplete="list">
+                <input type="text" id="customerAddress" class="mt-1 block w-full border-orange-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 bg-orange-25" autocomplete="off" aria-autocomplete="list">
                 <div id="address-suggestions" class="suggestions hidden"></div>
             </div>
         </div>
     </div>
 </div>
 
-        <div class="bg-white shadow rounded-lg p-4 mb-6 no-print">
+        <div class="bg-orange-50 shadow rounded-lg p-4 mb-6 no-print section-border">
             <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
                 <div class="relative md:col-span-2">
-                    <label class="block text-sm font-medium">পণ্য</label>
-                    <input type="text" id="searchBox" placeholder="পণ্য অনুসন্ধান..." class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" autocomplete="off" aria-autocomplete="list">
+                    <label class="block text-sm font-medium text-orange-900">পণ্য</label>
+                    <input type="text" id="searchBox" placeholder="পণ্য অনুসন্ধান..." class="mt-1 block w-full border-orange-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 bg-orange-25" autocomplete="off" aria-autocomplete="list">
                     <div id="product-suggestions" class="suggestions hidden"></div>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium">পরিমাণ</label>
-                    <input type="number" id="price" placeholder="পরিমাণ" step="0.01" min="0" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    <label class="block text-sm font-medium text-orange-900">পরিমাণ</label>
+                    <input type="number" id="price" placeholder="পরিমাণ" step="0.01" min="0" class="mt-1 block w-full border-orange-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 bg-orange-25">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium">মূল্য</label>
-                    <input type="number" id="qty" placeholder="মূল্য" step="1" min="0" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    <label class="block text-sm font-medium text-orange-900">মূল্য</label>
+                    <input type="number" id="qty" placeholder="মূল্য" step="1" min="0" class="mt-1 block w-full border-orange-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 bg-orange-25">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium">একক</label>
-                    <select id="unit" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    <label class="block text-sm font-medium text-orange-900">একক</label>
+                    <select id="unit" class="mt-1 block w-full border-orange-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 bg-orange-25">
                         <option value="">পিস</option>
                         <option value="D">ডজন</option>
                         <option value="S">সেট</option>
@@ -695,46 +708,50 @@ form_template = """
                 </div>
             </div>
             <div class="mt-4">
-                <button onclick="addItem()" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700">যোগ করুন</button>
+                <button onclick="addItem()" class="w-full bg-orange-600 text-white py-2 px-4 rounded-md hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition duration-200 font-semibold">যোগ করুন</button>
             </div>
         </div>
 
-        <div class="bg-white shadow rounded-lg p-4">
+        <div class="bg-orange-50 shadow rounded-lg p-4 section-border">
             <table class="w-full border-collapse">
                 <thead>
-                    <tr class="bg-gray-200">
-                        <th class="border p-2">পণ্যের নাম</th>
-                        <th class="border p-2">পরিমাণ</th>
-                        <th class="border p-2">মূল্য</th>
-                        <th class="border p-2">মোট টাকা</th>
-                        <th class="border p-2 no-print">ক্রিয়া</th>
+                    <tr>
+                        <th class="border border-orange-600 p-2 text-white column-product">পণ্যের নাম</th>
+                        <th class="border border-orange-600 p-2 text-white column-quantity">পরিমাণ</th>
+                        <th class="border border-orange-600 p-2 text-white column-price">মূল্য</th>
+                        <th class="border border-orange-600 p-2 text-white column-total">মোট টাকা</th>
+                        <th class="border border-orange-600 p-2 text-white column-action no-print">ক্রিয়া</th>
                     </tr>
                 </thead>
                 <tbody id="memoTable"></tbody>
                 <tfoot>
-                    <tr class="bg-gray-100">
-                        <td colspan="3" class="border p-2 font-bold">সর্বমোট</td>
-                        <td id="subtotal" class="border p-2 font-bold">০</td>
-                        <td class="border p-2 no-print"></td>
+                    <tr class="bg-orange-200">
+                        <td colspan="3" class="border border-orange-400 p-2 font-bold text-orange-900">সর্বমোট</td>
+                        <td id="subtotal" class="border border-orange-400 p-2 font-bold text-orange-900 column-total">০</td>
+                        <td class="border border-orange-400 p-2 no-print column-action"></td>
                     </tr>
                 </tfoot>
             </table>
         </div>
         
-        <div class="bg-white shadow rounded-lg p-4 mt-6 no-print">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-orange-50 shadow rounded-lg p-4 mt-6 no-print section-border">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                    <label class="block text-sm font-medium">ডিসকাউন্ট (%)</label>
-                    <input type="number" id="discount" name="discount" placeholder="ডিসকাউন্ট (%)" step="0.01" min="0" max="100" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    <label class="block text-sm font-medium text-orange-900">ডিসকাউন্ট (%)</label>
+                    <input type="number" id="discount" name="discount" placeholder="ডিসকাউন্ট (%)" step="0.01" min="0" max="100" class="mt-1 block w-full border-orange-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 bg-orange-25">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium">চূড়ান্ত মোট বিল</label>
-                    <p id="grandTotal" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm p-2 bg-gray-50">০</p>
+                    <label class="block text-sm font-medium text-orange-900">আগের বাকি</label>
+                    <input type="number" id="previousDue" placeholder="আগের বাকি" step="0.01" min="0" class="mt-1 block w-full border-orange-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 bg-orange-25">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-orange-900">মোট বিল</label>
+                    <p id="grandTotal" class="mt-1 block w-full border-orange-300 rounded-md shadow-sm p-2 bg-orange-100 text-orange-900">০</p>
                 </div>
             </div>
             <div class="mt-4">
-                <label for="notes" class="block text-sm font-medium">ফেরত</label>
-                <textarea id="notes" name="notes" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                <label for="notes" class="block text-sm font-medium text-orange-900">ফেরত</label>
+                <textarea id="notes" name="notes" rows="3" class="mt-1 block w-full border-orange-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 bg-orange-25" placeholder="ফেরত সম্পর্কিত নোট লিখুন..."></textarea>
             </div>
         </div>
 
@@ -746,7 +763,8 @@ form_template = """
             <input type="hidden" name="invoice_no" id="invoiceNoHidden">
             <input type="hidden" name="discount" id="discountHidden">
             <input type="hidden" name="notes" id="notesHidden">
-            <button type="submit" onclick="prepareForm()" class="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 no-print">মেমো তৈরি ও মুদ্রণ</button>
+            <input type="hidden" name="previous_due" id="previousDueHidden">
+            <button type="submit" onclick="prepareForm()" class="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-200 font-semibold no-print">মেমো তৈরি ও মুদ্রণ</button>
         </form>
     </div>
 
@@ -791,8 +809,8 @@ form_template = """
         const selectSuggestion = (input, suggestionsDiv, value, isCustomer) => {
             input.value = value;
             suggestionsDiv.classList.add('hidden');
-            if (isCustomer && customerAddresses[value]) {
-                document.getElementById('customerAddress').value = customerAddresses[value];
+            if (isCustomer) {
+                document.getElementById('customerAddress').value = customerAddresses[value] || '';
             }
             const nextInput = isCustomer ? 'customerAddress' : input.nextElementSibling?.id || 'price';
             document.getElementById(nextInput)?.focus();
@@ -848,14 +866,15 @@ form_template = """
             items.forEach((item, index) => {
                 subtotal += item.total;
                 const row = document.createElement('tr');
+                row.className = 'hover:bg-orange-100';
                 row.innerHTML = `
-                    <td class="border p-2">${item.item}</td>
-                    <td class="border p-2">${toBanglaDigits(item.price.toFixed(2))}</td>
-                    <td class="border p-2">${toBanglaDigits(item.qty)} (${item.unit})</td>
-                    <td class="border p-2">${toBanglaDigits(item.total.toFixed(2))}</td>
-                    <td class="border p-2 no-print">
-                        <button onclick="editItem(${index})" class="text-blue-600 hover:text-blue-800" aria-label="Edit item">✏️</button>
-                        <button onclick="removeItem(${index})" class="text-red-600 hover:text-red-800" aria-label="Remove item">❌</button>
+                    <td class="border border-orange-300 p-2 text-orange-900 column-product">${item.item}</td>
+                    <td class="border border-orange-300 p-2 text-orange-900 column-quantity">${toBanglaDigits(item.price.toFixed(2))}</td>
+                    <td class="border border-orange-300 p-2 text-orange-900 column-price">${toBanglaDigits(item.qty)} (${item.unit})</td>
+                    <td class="border border-orange-300 p-2 text-orange-900 font-semibold column-total">${toBanglaDigits(item.total.toFixed(2))}</td>
+                    <td class="border border-orange-300 p-2 no-print column-action">
+                        <button onclick="editItem(${index})" class="text-white hover:text-orange-200 mr-2" aria-label="Edit item">✏️</button>
+                        <button onclick="removeItem(${index})" class="text-white hover:text-orange-200" aria-label="Remove item">❌</button>
                     </td>`;
                 tableBody.appendChild(row);
             });
@@ -864,12 +883,16 @@ form_template = """
             updateGrandTotal();
         };
 
-        // Update grand total based on discount
+        // Update grand total based on discount and previous due
         const updateGrandTotal = () => {
             const subtotal = items.reduce((sum, item) => sum + item.total, 0);
             const discountPercent = parseFloat(document.getElementById('discount').value) || 0;
+            const previousDue = parseFloat(document.getElementById('previousDue').value) || 0; // Read from input
+
             const discountAmount = (subtotal * discountPercent) / 100;
-            const grandTotal = subtotal - discountAmount;
+            const totalAfterDiscount = subtotal - discountAmount;
+            const grandTotal = totalAfterDiscount + previousDue;
+
             document.getElementById('grandTotal').textContent = toBanglaDigits(grandTotal.toFixed(2));
         };
 
@@ -890,12 +913,14 @@ form_template = """
             document.getElementById('invoiceNoHidden').value = document.getElementById('invoiceNo').textContent;
             document.getElementById('discountHidden').value = document.getElementById('discount').value;
             document.getElementById('notesHidden').value = document.getElementById('notes').value;
+            document.getElementById('previousDueHidden').value = document.getElementById('previousDue').value;
         };
 
         // Event listeners
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('invoiceNo').textContent = getInvoiceNumber();
             document.getElementById('discount').addEventListener('input', updateGrandTotal);
+            document.getElementById('previousDue').addEventListener('input', updateGrandTotal); // Added listener for due input
 
             const inputs = [
                 { id: 'searchBox', suggestions: 'product-suggestions', list: products },
@@ -927,11 +952,7 @@ form_template = """
 </html>
 """
 
-# Updated memo template
-# Updated memo template for A4 size with border and font customization
-# Updated memo template for A4 size with border and font customization
-# Updated memo template with fixes for layout, text clipping, pagination, and customization
-# Updated memo template with fixes for font size and multi-page pagination logic
+# MODIFIED MEMO TEMPLATE WITH SEPARATE COLUMN COLORS
 memo_template = """
 <!DOCTYPE html>
 <html lang="bn">
@@ -944,9 +965,9 @@ memo_template = """
 <script src="{{ url_for('static', filename='html2canvas.min.js') }}"></script>
     <style>
         :root {
-            --header-top-margin: 2px;
-            --header-bottom-margin: 2px;
-            --company-name-bottom-margin: 8px;
+            --header-top-margin: 0px;
+            --header-bottom-margin: 0px;
+            --company-name-bottom-margin: 0px;
             --border-width: 2px;
         }
 
@@ -958,7 +979,7 @@ memo_template = """
         }
         body { 
             font-family: 'MyCustomFont', sans-serif; 
-            background: #f5f5f5; 
+            background: #fef7ed; 
             margin: 0;
             padding: 2px;
         }
@@ -967,9 +988,9 @@ memo_template = """
             width: 2480px;
             height: 3508px;
             background: white; 
-            padding: var(--header-top-margin) 4px 4px 4px;
+            padding: var(---top-margin) 0px 0px 0px;
             box-sizing: border-box; 
-            border: 2px solid #ddd; 
+            border: 2px solid #ea580c; 
             margin: auto; 
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -983,6 +1004,10 @@ memo_template = """
         
         header {
             margin-bottom: var(--header-bottom-margin);
+            background: linear-gradient(135deg, #86FFFE 0%, #86FFFE 100%);
+            padding: 0px 0px;
+            border-radius: 8px;
+            border: 2px solid #000000;
         }
 
         header h1 { 
@@ -990,37 +1015,90 @@ memo_template = """
             font-weight: 700;
             color: #FF6900;
             margin: 0 0 var(--company-name-bottom-margin) 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
         header p { 
             margin: 4px 0;
             font-size: 100px;
-            color: black;
+            color: #000000;
             font-weight: 600;
         }
-        header .phone-info { font-size: 90px; }
+        header .phone-info { 
+            font-size: 90px; 
+            color: #000000;
+        }
         .logo { width: 260px; height: auto; }
+
+        .invoice-info {
+            background: #B4F9FF;
+            padding: 0px;
+            border-radius: 6px;
+            border: 2px solid #000000;
+            margin: 0px 0;
+        }
 
         .invoice-info p {
             margin: 8px 0;
             font-size: 110px;
+            color: #000000;
         }
 
         table { 
             border-collapse: collapse; 
             width: 100%; 
+            background: white;
+        }
+        
+        /* Column specific colors for memo */
+        .column-product-header { 
+            background: #FF1818 !important;
+            color: white !important;
+            border: var(--border-width) solid #ea580c !important;
+        }
+        .column-quantity-header { 
+            background: #FF1818 !important;
+            color: white !important;
+            border: var(--border-width) solid #ea580c !important;
+        }
+        .column-price-header { 
+            background: #FF1818 !important;
+            color: white !important;
+            border: var(--border-width) solid #ea580c !important;
+        }
+        .column-total-header { 
+            background: #FF1818 !important;
+            color: white !important;
+            border: var(--border-width) solid #ea580c !important;
+        }
+        
+        .column-product-cell { 
+            background: #FDFFD7 !important;
+            border: var(--border-width) solid #f97316 !important;
+        }
+        .column-quantity-cell { 
+            background: #FEF3F9 !important;
+            border: var(--border-width) solid #f97316 !important;
+        }
+        .column-price-cell { 
+            background: #FDF8CE !important;
+            border: var(--border-width) solid #f97316 !important;
+        }
+        .column-total-cell { 
+            background: #E9F8FF !important;
+            border: var(--border-width) solid #f97316 !important;
         }
         
         table th, table td { 
-            border: var(--border-width) solid #374151; 
-            padding: 8px 10px;
+            padding: 0px 0px;
             text-align: center; 
             vertical-align: middle;
             word-wrap: break-word;
             line-height: 1.4;
+            font-weight: 700;
         }
+        
         table th {
             font-size: var(--header-font-size);
-            font-weight: 700;
         }
         table td {
             font-size: var(--cell-font-size);
@@ -1033,21 +1111,45 @@ memo_template = """
         table tfoot td {
             font-size: var(--footer-font-size);
             font-weight: 200;
+            background: #D8FFAE;
+            color: #000000;
+            border: var(--border-width) solid #000000;
         }
+        
         .controls {
-            position: fixed; top: 20px; right: 20px; background: white;
-            padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 1000; min-width: 250px;
+            position: fixed; 
+            top: 20px; 
+            right: 20px; 
+            background: #fff7ed;
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000; 
+            min-width: 250px;
+            border: 2px solid #fdba74;
         }
+        
         .control-group { margin-bottom: 15px; }
-        .control-group label { display: block; font-weight: 700; margin-bottom: 5px; font-size: 14px; color: #374151; }
-        .control-group select, .control-group input {
-            width: 100%; padding: 8px 12px; border: 1px solid #d1d5db;
-            border-radius: 4px; font-size: 14px; box-sizing: border-box;
+        .control-group label { 
+            display: block; 
+            font-weight: 700; 
+            margin-bottom: 5px; 
+            font-size: 14px; 
+            color: #7c2d12; 
         }
+        
+        .control-group select, .control-group input {
+            width: 100%; 
+            padding: 8px 12px; 
+            border: 1px solid #fdba74;
+            border-radius: 4px; 
+            font-size: 14px; 
+            box-sizing: border-box;
+            background: #fffbeb;
+        }
+        
         @media print { .no-print { display: none !important; } }
         
-        /* FIX 1: Font size classes to control table text size */
         .font-small { 
             --header-font-size: 67px; --cell-font-size: 90px; --footer-font-size: 95px; 
         }
@@ -1057,17 +1159,46 @@ memo_template = """
         .font-large { 
             --header-font-size: 67px; --cell-font-size: 115px; --footer-font-size: 120px; 
         }
+        
+        /* Print button styling */
+        #printMemo {
+            background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 25px 50px;
+            box-shadow: 0 4px 6px rgba(234, 88, 12, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        #printMemo:hover {
+            background: linear-gradient(135deg, #c2410c 0%, #9a3412 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(234, 88, 12, 0.4);
+        }
+        
+        .notes-section {
+            background: #fef3c7;
+            padding: 30px;
+            border-radius: 6px;
+            border: 2px solid #f59e0b;
+            margin-top: 20px;
+            font-size: 110px;
+            color: #92400e;
+        }
     </style>
 </head>
 <body>
     <div style="text-align: center; margin: 50px 0;" class="no-print">
-        <button id="printMemo" style="padding: 25px 50px; background: #2563eb; color: white; border: none; border-radius: 6px; font-size: 28px; cursor: pointer;">
+        <button id="printMemo" style="padding: 25px 50px; background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%); color: white; border: none; border-radius: 6px; font-size: 28px; cursor: pointer; box-shadow: 0 4px 6px rgba(234, 88, 12, 0.3);">
             🖨️ মেমো ডাউনলোড করুন
         </button>
     </div>
 
     <div class="controls no-print">
-        <h3 style="margin-top: 0; font-size: 16px;">কাস্টমাইজেশন</h3>
+        <h3 style="margin-top: 0; font-size: 16px; color: #7c2d12;">কাস্টমাইজেশন</h3>
         
         <div class="control-group">
             <label for="headerTopMargin">Top Margin (px): <span id="headerTopMarginValue">20</span></label>
@@ -1103,7 +1234,7 @@ memo_template = """
         <div class="invoice-info"> </div>
         <table id="memoTable"> </table>
         {% if notes %}
-        <div class="notes-section" style="margin-top: 4px; font-size: 110px; color: red;">
+        <div class="notes-section" style="margin-top: 4px; font-size: 110px; color: #92400e;">
     <p><strong>⭐:</strong> {{ notes }}</p>
 </div>
         {% endif %}
@@ -1112,7 +1243,10 @@ memo_template = """
     <div id="capture-container"></div>
 
 <script>
-    // --- START: UPDATED JAVASCRIPT ---
+    const toBanglaDigits = (number) => {
+        const banglaDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+        return String(number).replace(/\d/g, d => banglaDigits[d]);
+    };
 
     function updateHeaderSpacing() {
         const topMargin = document.getElementById('headerTopMargin').value;
@@ -1123,7 +1257,6 @@ memo_template = """
         document.getElementById('headerBottomMarginValue').textContent = bottomMargin;
     }
 
-    // FIX 1: New function to handle font size class changes
     function updateFontSize() {
         const selectedSize = document.getElementById('fontSize').value;
         const memoArea = document.getElementById('memoArea');
@@ -1149,7 +1282,6 @@ memo_template = """
         } catch (e) { console.warn("Font could not be loaded in time.", e); }
     }
     
-    // --- FIX 2: REWRITTEN PAGINATION LOGIC ---
     async function generateMultiPageMemo() {
         const printButton = document.getElementById('printMemo');
         printButton.disabled = true;
@@ -1163,6 +1295,13 @@ memo_template = """
 
         const header = originalMemo.querySelector('header');
         const invoiceInfo = originalMemo.querySelector('.invoice-info');
+        
+        // Correctly get memo number and date text
+        const memoNumberEl = document.getElementById('memo-number-display');
+        const dateEl = document.getElementById('memo-date-display');
+        const memoNumberText = memoNumberEl ? memoNumberEl.textContent.trim() : '';
+        const dateText = dateEl ? dateEl.textContent.trim() : '';
+
         const table = originalMemo.querySelector('#memoTable');
         const tableHead = table.querySelector('thead');
         const tableFoot = table.querySelector('tfoot');
@@ -1170,9 +1309,8 @@ memo_template = """
         const notesSection = originalMemo.querySelector('.notes-section');
         
         const A4_PAGE_HEIGHT = 3508;
-        const BOTTOM_MARGIN = 120; // Safety margin at the bottom
+        const BOTTOM_MARGIN = 0; 
 
-        // Get a reliable estimate for row height from the first row
         const averageRowHeight = allRows.length > 0 ? allRows[0].offsetHeight : 150;
 
         let rowsLeft = [...allRows];
@@ -1180,22 +1318,30 @@ memo_template = """
 
         while (rowsLeft.length > 0) {
             const newPage = document.createElement('div');
-            // Make sure the new page has all the same classes for styling
             newPage.className = originalMemo.className;
             captureContainer.appendChild(newPage);
             
             let pageContentHeight = 0;
 
-            // Page 1 gets the full header
             if (pageNumber === 1) {
                 const headerClone = header.cloneNode(true);
                 newPage.appendChild(headerClone);
                 const invoiceInfoClone = invoiceInfo.cloneNode(true);
                 newPage.appendChild(invoiceInfoClone);
                 pageContentHeight += header.offsetHeight + invoiceInfo.offsetHeight;
+            } else {
+                // Add simplified header for subsequent pages
+                const subsequentPageHeader = document.createElement('div');
+                subsequentPageHeader.style.textAlign = 'left';
+                subsequentPageHeader.style.padding = '0px 0px 0px 0px';
+                subsequentPageHeader.style.fontSize = '90px';
+                subsequentPageHeader.style.fontWeight = 'bold';
+                subsequentPageHeader.style.color = '#7c2d12';
+                subsequentPageHeader.innerHTML = `<p>${memoNumberText} | ${dateText} | পাতা: ${toBanglaDigits(pageNumber)}</p>`;
+                newPage.appendChild(subsequentPageHeader);
+                pageContentHeight += 150; // Estimated height for this header
             }
 
-            // Every page gets a table and a table header
             const newPageTable = document.createElement('table');
             const tableHeadClone = tableHead.cloneNode(true);
             newPageTable.appendChild(tableHeadClone);
@@ -1205,28 +1351,23 @@ memo_template = """
             
             pageContentHeight += tableHead.offsetHeight;
 
-            // Calculate how much space is left for rows
             let availableHeight = A4_PAGE_HEIGHT - pageContentHeight - BOTTOM_MARGIN;
             
-            // On the last page, we also need space for the footer and notes
             const potentialFooterHeight = tableFoot.offsetHeight + (notesSection ? notesSection.offsetHeight : 0);
             
-            // Add rows until the page is full
             while (rowsLeft.length > 0) {
                 const rowHeight = rowsLeft[0].offsetHeight > 0 ? rowsLeft[0].offsetHeight : averageRowHeight;
                 
-                // Check if we need to reserve space for the footer
                 let spaceNeeded = (rowsLeft.length === 1) ? rowHeight + potentialFooterHeight : rowHeight;
 
                 if (availableHeight - spaceNeeded < 0) {
-                    break; // Not enough space, break to start a new page
+                    break; 
                 }
                 
                 availableHeight -= rowHeight;
                 newPageTbody.appendChild(rowsLeft.shift().cloneNode(true));
             }
             
-            // If there are no rows left, this must be the last page, so add the footer.
             if (rowsLeft.length === 0) {
                 newPageTable.appendChild(tableFoot.cloneNode(true));
                 if (notesSection) {
@@ -1236,7 +1377,7 @@ memo_template = """
             pageNumber++;
         }
         
-        await sleep(500); // Give browser a moment to render
+        await sleep(500);
 
         const pagesToCapture = captureContainer.querySelectorAll('.a4-paper');
         for (let i = 0; i < pagesToCapture.length; i++) {
@@ -1258,10 +1399,9 @@ memo_template = """
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        // Populate the original memo with content first
         const memoArea = document.getElementById('memoArea');
         memoArea.querySelector('header').innerHTML = `
-            <div style="display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 0px 0px;">
                 <img src="{{ left_logo_url }}" alt="বাম লোগো" class="logo">
                 <div style="text-align: center; flex: 1; margin: 0 30px;">
                     <h1>{{ company_name }}</h1> <p>{{ company_owner }}</p> <p>{{ company_address }}</p>
@@ -1273,41 +1413,64 @@ memo_template = """
         memoArea.querySelector('.invoice-info').innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                 <div> <p><strong>গ্রাহকের নাম:</strong> {{ customer }}</p> <p><strong>ঠিকানা:</strong> {{ address }}</p> </div>
-                <div style="text-align: right;"> <p><strong>মেমো নম্বর:</strong> {{ invoice_no|to_bangla_digits }}</p> <p><strong>তারিখ:</strong> {{ date|to_bangla_digits }}</p> </div>
+                <div style="text-align: right;"> 
+                    <p id="memo-number-display"><strong>মেমো নম্বর:</strong> {{ invoice_no|to_bangla_digits }}</p> 
+                    <p id="memo-date-display"><strong>তারিখ:</strong> {{ date|to_bangla_digits }}</p> 
+                </div>
             </div>`;
 
         const memoTable = memoArea.querySelector('#memoTable');
         memoTable.innerHTML = `
             <thead>
                 <tr>
-                    <th style="width: 67%;">পণ্যের নাম</th> <th style="width: 7%;">পরিমাণ</th>
-                    <th style="width: 14%;">মূল্য</th> <th style="width: 12%;">মোট</th>
+                    <th class="column-product-header" style="width: 67%;">পণ্যের নাম</th> 
+                    <th class="column-quantity-header" style="width: 7%;">পরিমাণ</th>
+                    <th class="column-price-header" style="width: 14%;">মূল্য</th> 
+                    <th class="column-total-header" style="width: 12%;">মোট</th>
                 </tr>
             </thead>
             <tbody>
                 {% for item in items %}
                 <tr>
-                    <td>{{ item.item }}</td> <td>{{ item.price|round(2)|to_bangla_digits }}</td>
-                    <td>{{ item.qty|to_bangla_digits }} {{ item.unit }}</td> <td>{{ item.total|round(2)|to_bangla_digits }}</td>
+                    <td class="column-product-cell">{{ item.item }}</td> 
+                    <td class="column-quantity-cell">{{ item.price|round(2)|to_bangla_digits }}</td>
+                    <td class="column-price-cell">{{ item.qty|to_bangla_digits }} {{ item.unit }}</td> 
+                    <td class="column-total-cell">{{ item.total|round(2)|to_bangla_digits }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="3" style="text-align: right;"><strong>সর্বমোট</strong></td>
-                    <td><strong>{{ total|round(2)|to_bangla_digits }}</strong></td>
+                    <td colspan="3" style="text-align: right;"><strong>{% if discount_percent > 0 or previous_due > 0 %}মোট মাল{% else %}সর্বমোট{% endif %}</strong></td>
+                    <td class="column-total-cell"><strong>{{ total|round(2)|to_bangla_digits }}</strong></td>
                 </tr>
+        
                 {% if discount_percent > 0 %}
                 <tr>
                     <td colspan="3" style="text-align: right;"><strong>ডিসকাউন্ট ({{ discount_percent|round(2)|to_bangla_digits }}%)</strong></td>
-                    <td><strong>- {{ discount_amount|round(2)|to_bangla_digits }}</strong></td>
+                    <td class="column-total-cell"><strong>- {{ discount_amount|round(2)|to_bangla_digits }}</strong></td>
                 </tr>
                 <tr>
-                    <td colspan="3" style="text-align: right;"><strong>মোট বিল</strong></td>
-                    <td><strong>{{ grand_total|round(2)|to_bangla_digits }}</strong></td>
+                    <td colspan="3" style="text-align: right;"><strong>ডিসকাউন্ট পর</strong></td>
+                    <td class="column-total-cell"><strong>{{ (total - discount_amount)|round(2)|to_bangla_digits }}</strong></td>
                 </tr>
                 {% endif %}
-            </tfoot>`;
+        
+                {% if previous_due > 0 %}
+                <tr>
+                    <td colspan="3" style="text-align: right;"><strong>আগের বাকি</strong></td>
+                    <td class="column-total-cell"><strong>{{ previous_due|round(2)|to_bangla_digits }}</strong></td>
+                </tr>
+                {% endif %}
+        
+                {% if discount_percent > 0 or previous_due > 0 %}
+                <tr>
+                    <td colspan="3" style="text-align: right;"><strong>সর্বমোট</strong></td>
+                    <td class="column-total-cell"><strong>{{ grand_total|round(2)|to_bangla_digits }}</strong></td>
+                </tr>
+                {% endif %}
+            </tfoot>
+            `;
         
         updateHeaderSpacing();
         updateTableStyles();
@@ -1320,15 +1483,10 @@ memo_template = """
 </html>
 """
 
-
-
-
 @app.route('/')
 def index():
-    today = datetime.date.today().strftime("%d-%m-%y")
+    today = datetime.date.today().strftime("%Y-%m-%d")
     
-    # 3. Generate local URLs for the logos
-    # Replace 'left_logo.png' and 'right_logo.png' with your actual file names
     local_left_logo = url_for('static', filename='left_logo.png', _external=True)
     local_right_logo = url_for('static', filename='right_logo.png', _external=True)
 
@@ -1339,8 +1497,8 @@ def index():
                                  company_phone=company_phone,
                                  company_email=company_email,
                                  company_email2=company_email2,
-                                 left_logo_url=local_left_logo,  # Pass the local URL
-                                 right_logo_url=local_right_logo, # Pass the local URL
+                                 left_logo_url=local_left_logo,
+                                 right_logo_url=local_right_logo,
                                  products=products,
                                  customers=customers,
                                  customer_addresses=customer_addresses,
@@ -1354,32 +1512,25 @@ def generate():
     try:
         customer = request.form['customer']
         address = request.form['address']
-        # The date is received from the form as "YYYY-MM-DD"
         date_from_form = request.form['date']
         items_json = request.form['items']
         invoice_no = request.form['invoice_no']
-        
-        # ---- ADD THESE LINES ----
         discount_percent = float(request.form.get('discount', 0) or 0)
         notes = request.form.get('notes', '')
-        # ------------------------
+        previous_due = float(request.form.get('previous_due', 0) or 0)
 
         if not customer or not items_json:
             return "Error: Customer name and items are required", 400
 
-        # Parse the "YYYY-MM-DD" string into a date object
         date_obj = datetime.datetime.strptime(date_from_form, '%Y-%m-%d').date()
-
-        # Format that object into the desired "DD-MM-YYYY" string
         formatted_date = date_obj.strftime('%d-%m-%Y')
 
         items = json.loads(items_json) if items_json else []
         total = sum(item['total'] for item in items)
         
-        # ---- ADD THESE CALCULATIONS ----
         discount_amount = (total * discount_percent) / 100
-        grand_total = total - discount_amount
-        # --------------------------------
+        total_after_discount = total - discount_amount
+        grand_total = total_after_discount + previous_due
 
         local_left_logo = url_for('static', filename='left_logo.png', _external=True)
         local_right_logo = url_for('static', filename='right_logo.png', _external=True)
@@ -1399,21 +1550,16 @@ def generate():
                                      items=items,
                                      total=total,
                                      invoice_no=invoice_no,
-                                     # ---- ADD THESE VARIABLES ----
                                      discount_percent=discount_percent,
                                      discount_amount=discount_amount,
                                      grand_total=grand_total,
+                                     previous_due=previous_due,
                                      notes=notes)
-                                     # -----------------------------
     except Exception as e:
         return f"Error generating memo: {str(e)}", 500
 
-
-
-
-# ----------------------------
+# ... (rest of the code remains the same for collage functionality)
 # COLLAGE BLUEPRINT - FIXED VERSION
-# ----------------------------
 marge_bp = Blueprint("marge", __name__, url_prefix="/Marge")
 
 A4_WIDTH, A4_HEIGHT = 2480, 3508
@@ -1425,20 +1571,38 @@ os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 def make_a4_collage(image_paths, output_path):
     collage = Image.new("RGB", (A4_WIDTH, A4_HEIGHT), "white")
-    slot_width, slot_height = A4_WIDTH // COLS, A4_HEIGHT // ROWS
+
+    gap_x = 64  # horizontal gap (middle vertical line)
+    gap_y = 66  # vertical gap (middle horizontal line)
+
+    # Each slot shrinks by half the gap on each touching side
+    slot_width = (A4_WIDTH - gap_x) // COLS
+    slot_height = (A4_HEIGHT - gap_y) // ROWS
 
     for idx in range(ROWS * COLS):
         row, col = divmod(idx, COLS)
-        x, y = col * slot_width, row * slot_height
+
+        # Base positions
+        x = col * slot_width
+        y = row * slot_height
+
+        # Shift right column by half horizontal gap
+        if col == 1:
+            x += gap_x
+
+        # Shift bottom row by half vertical gap
+        if row == 1:
+            y += gap_y
 
         if idx < len(image_paths):
             img = Image.open(image_paths[idx])
             img.thumbnail((slot_width, slot_height), Image.LANCZOS)
+
             offset_x = x + (slot_width - img.width) // 2
             offset_y = y + (slot_height - img.height) // 2
             collage.paste(img, (offset_x, offset_y))
 
-    collage.save(output_path, "JPEG", quality=95)
+    collage.save(output_path, "JPEG", quality=100)
 
 # HTML template for the collage page
 collage_template = """
@@ -1451,7 +1615,7 @@ collage_template = """
     <style>
         body { 
             font-family: 'Arial', sans-serif; 
-            background: #f0f2f5; 
+            background: #fef7ed; 
             margin: 0; 
             padding: 20px; 
         }
@@ -1462,24 +1626,26 @@ collage_template = """
             padding: 30px; 
             border-radius: 10px; 
             box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            border: 2px solid #fdba74;
         }
         h1 { 
-            color: #2563eb; 
+            color: #ea580c; 
             text-align: center; 
             margin-bottom: 30px; 
         }
         .upload-form { 
-            border: 2px dashed #94a3b8; 
+            border: 2px dashed #fdba74; 
             padding: 30px; 
             text-align: center; 
             border-radius: 8px; 
             margin-bottom: 20px; 
+            background: #fffbeb;
         }
         .file-input { 
             margin: 15px 0; 
         }
         .generate-btn { 
-            background: #2563eb; 
+            background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
             color: white; 
             border: none; 
             padding: 12px 30px; 
@@ -1489,22 +1655,24 @@ collage_template = """
             width: 100%; 
         }
         .generate-btn:hover { 
-            background: #1d4ed8; 
+            background: linear-gradient(135deg, #c2410c 0%, #9a3412 100%);
         }
         .note { 
-            background: #f1f5f9; 
+            background: #fef3c7; 
             padding: 15px; 
             border-radius: 6px; 
             margin-top: 20px; 
             font-size: 14px; 
-            color: #475569; 
+            color: #92400e; 
+            border: 1px solid #f59e0b;
         }
         .back-link { 
             display: block; 
             text-align: center; 
             margin-top: 20px; 
-            color: #2563eb; 
+            color: #ea580c; 
             text-decoration: none; 
+            font-weight: bold;
         }
     </style>
 </head>
@@ -1514,7 +1682,7 @@ collage_template = """
         
         <form method="post" enctype="multipart/form-data" class="upload-form">
             <div class="file-input">
-                <strong>৪টি ছবি নির্বাচন করুন (সর্বোচ্চ ৪টি):</strong><br>
+                <strong style="color: #7c2d12;">৪টি ছবি নির্বাচন করুন (সর্বোচ্চ ৪টি):</strong><br>
                 <input type="file" name="photos" multiple accept="image/*" required>
             </div>
             <button type="submit" class="generate-btn">📥 কলাজ জেনারেট করুন</button>
@@ -1526,7 +1694,10 @@ collage_template = """
             • ছবিগুলো JPG, PNG, JPEG ফরম্যাটে হতে হবে<br>
             • কলাজটি A4 সাইজে তৈরি হবে<br>
             • আপলোডেট কলাজ ডাউনলোড হবে স্বয়ংক্রিয়ভাবে
+        </div>
         
+        <a href="{{ url_for('index') }}" class="back-link">← মেমো জেনারেটরে ফিরে যান</a>
+    </div>
 </body>
 </html>
 """
@@ -1534,22 +1705,19 @@ collage_template = """
 @marge_bp.route("/", methods=["GET", "POST"])
 def collage_index():
     if request.method == "POST":
-        # Check if files were uploaded
         if 'photos' not in request.files:
             return "কোন ফাইল নির্বাচন করা হয়নি", 400
         
         uploaded_files = request.files.getlist("photos")
         
-        # Validate files
         if not uploaded_files or uploaded_files[0].filename == '':
             return "কোন ফাইল নির্বাচন করা হয়নি", 400
         
         paths = []
         
         try:
-            for file in uploaded_files[:4]:  # Max 4 files
+            for file in uploaded_files[:4]:
                 if file and file.filename:
-                    # Validate file type
                     if not file.filename.lower().endswith(('.jpg', '.jpeg', '.png')):
                         return "শুধুমাত্র JPG, JPEG, PNG ফাইল অনুমোদিত", 400
                     
@@ -1561,12 +1729,10 @@ def collage_index():
             if not paths:
                 return "কোন বৈধ ছবি পাওয়া যায়নি", 400
             
-            # Generate collage
             output_filename = str(uuid.uuid4()) + ".jpg"
             output_path = os.path.join(OUTPUT_FOLDER, output_filename)
             make_a4_collage(paths, output_path)
             
-            # Clean up uploaded files
             for path in paths:
                 if os.path.exists(path):
                     os.remove(path)
@@ -1574,20 +1740,15 @@ def collage_index():
             return send_file(output_path, as_attachment=True, download_name=f"collage_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.jpg")
             
         except Exception as e:
-            # Clean up on error
             for path in paths:
                 if os.path.exists(path):
                     os.remove(path)
             return f"ত্রুটি ঘটেছে: {str(e)}", 500
     
-    # GET request - show the upload form
     return render_template_string(collage_template)
 
 # Register the blueprint
 app.register_blueprint(marge_bp)
-
-
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3737, debug=True, use_reloader=False)
