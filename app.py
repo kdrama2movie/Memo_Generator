@@ -1094,7 +1094,7 @@ memo_template = """
             vertical-align: middle;
             word-wrap: break-word;
             line-height: 1.4;
-            font-weight: 700;
+            font-weight: 200;
         }
         
         table th {
@@ -1110,7 +1110,7 @@ memo_template = """
 
         table tfoot td {
             font-size: var(--footer-font-size);
-            font-weight: 200;
+            font-weight: 150;
             background: #D8FFAE;
             color: #000000;
             border: var(--border-width) solid #000000;
